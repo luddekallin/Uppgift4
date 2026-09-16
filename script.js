@@ -1,16 +1,19 @@
-const addToListInput = document.querySelector("#addToList");
-const addToListBtn = document.querySelector("#addBtn");
-const listContent = [""];
+let input;
 
-addToListBtn.addEventListener(
+const addBtn = document.querySelector("#addBtn");
+const addToListInput = document.querySelector("#addToListInput");
+
+addBtn.addEventListener(
     "click",
     addToListFunction
-)
+);
 
 function addToListFunction(){
-        let ul = document.querySelector("#ulList")
-        let li = document.createElement("li");
-        li.appendChild(document.createTextNode("test"));
-        ul.appendChild(li);
+    input = addToListInput.value;
+    const node = document.createElement("li");
+    const textnode = document.createTextNode(input);
+    node.appendChild(textnode)
 
-    }
+    document.querySelector("#ulList").appendChild(node);
+
+}
