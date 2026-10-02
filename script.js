@@ -43,6 +43,7 @@ function addToListFunction(){
     else{
         //tar bort meddelandet om man skrivit något i input
         info.innerHTML="";
+
         let item = document.createElement("li");
         const itemLabel = document.createElement("span");
         itemLabel.innerText = input;
@@ -55,29 +56,26 @@ function addToListFunction(){
         list.appendChild (item);
 
         //lägger till objektet i listan i js
-            const object = {};
-            object.name = input;
-            object.completeStatus;
-            listArray.push({input, completeStatus});
+        const task = { input, completeStatus: false };
+        listArray.push(task);
 
         //Event listener för att ta bort objektet från listan och array genom att trycka på soptunnan
-            trashcan.addEventListener("click", function(){
-                trashcan.parentElement.remove()
+        trashcan.addEventListener("click", function(){
+            trashcan.parentElement.remove()
 
-                //räkna om "completed"
-                let completedStyle = document.querySelectorAll(".completedStyle");
-                completed = completedStyle.length
-                amountCompleted.innerHTML = completed + " completed";
+            //räkna om "completed"
+            let completedStyle = document.querySelectorAll(".completedStyle");
+            completed = completedStyle.length
+            amountCompleted.innerHTML = completed + " completed";
 
                 
 
-                // Remove from array
-                let index = listArray.map(t => t.input).indexOf(trashcan.parentElement);
-        
-                listArray.splice(index, 1);
-                console.log(index);
+            // Ta bort från array
+            const index = listArray.indexOf(task);
+            if (index !== -1) listArray.splice(index, 1);
 
-                console.log(listArray);
+            //console log för kontroll
+            console.log(listArray);
             });
         
         
@@ -86,19 +84,23 @@ function addToListFunction(){
 
         //event listener till varje objekt med funktionen att toggle "completed"
         itemLabel.addEventListener("click", function (){ 
+            //tar bort eller "completedStyle" om den redan har den
             if (item.getAttribute("class")=="completedStyle"){
                 item.setAttribute("class","");
                 completed--;
                 
-                changeStatus(item, false);
+                //uppdaterar completeStatus i objektet
+                task.completeStatus = item.classList.contains("completedStyle");
 
                 console.log(listArray);
             }
+            //lägger till "completedStyle" om den inte har den
             else{
                 item.setAttribute("class", "completedStyle");
                 completed++;
                 
-                changeStatus(item, true);
+                //uppdaterar completeStatus i objektet
+                task.completeStatus = item.classList.contains("completedStyle");
 
                 console.log(listArray);
                 
@@ -119,12 +121,6 @@ function addToListFunction(){
     //clear input
     addToListInput.value = "";
 }
-
-function changeStatus(input, status){
-    let changeIndex = listArray.map(t=>t.input).indexOf(input);
-    listArray[changeIndex].completeStatus = status;
-}
-
 
 
 
